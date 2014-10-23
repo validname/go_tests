@@ -2,26 +2,31 @@ package main
 
 import (
 	"bytes"
-//	"errors"
+	//	"errors"
 	"fmt"
 	"io/ioutil"
-//	"net"
+	"net"
 	"net/http"
-//	"net/url"
-//	"strings"
-//	"sync"
+	//	"net/url"
+	//	"strings"
+	//	"sync"
 	"time"
 )
+
+func myDial(network, address string) (c net.Conn, err error) {
+	return net.DialTimeout(network, address, 1 * time.Millisecond)
+}
 
 func main() {
 
 	tr := &http.Transport{
 		DisableKeepAlives: false,
+		Dial:              myDial,
 	}
 
 	client := &http.Client{
 		Transport: tr,
-		Timeout:   1 * time.Millisecond,
+//		Timeout:   1 * time.Millisecond,
 	}
 
 	url := "http://ngs.ru/"
